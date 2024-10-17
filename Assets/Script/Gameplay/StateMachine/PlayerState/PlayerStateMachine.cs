@@ -1,18 +1,15 @@
 using UnityEngine;
+// Add the correct namespace if needed
+// using Gameplay;
 
 public class PlayerStateMachine : StateMachine
 {
-    // [field: SerializeField] public GameObject Khodam { get; private set; }
     [field: SerializeField] public Collider trigger { get; private set; }
     [field: SerializeField] public CharacterInput InputReader { get; private set; }
     [field: SerializeField] public CharacterController Controller { get; private set; }
     [field: SerializeField] public Animator Animator { get; private set; }
     [field: SerializeField] public Animator KhodamAnimator { get; private set; }
     [field: SerializeField] public Targeter Targeter { get; private set; }
-    // [field: SerializeField] public ForceReceiver ForceReceiver { get; private set; }
-    // [field: SerializeField] public WeaponDamage Weapon { get; private set; }
-    // [field: SerializeField] public WeaponDamage Skill { get; private set; }
-    // [field: SerializeField] public Statistic Statistic { get; private set; }
     [field: SerializeField] public float FreeLookMovementSpeed { get; private set; }
     [field: SerializeField] public float TargetingMovementSpeed { get; private set; }
     [field: SerializeField] public float RotationDamping { get; private set; }
@@ -27,13 +24,8 @@ public class PlayerStateMachine : StateMachine
 
     private void Start()
     {
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-
         MainCameraTransform = Camera.main.transform;
-
         SwitchState(new PlayerFreeLookState(this));
-        // playerSO.SetScriptableObject(Statistic.statisticData);
     }
 
     private void OnEnable()
