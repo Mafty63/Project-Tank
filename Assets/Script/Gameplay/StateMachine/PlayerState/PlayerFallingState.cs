@@ -1,45 +1,45 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class PlayerFallingState : PlayerBaseState
-{
-    private readonly int FallHash = Animator.StringToHash("Fall");
+// public class PlayerFallingState : PlayerBaseState
+// {
+//     private readonly int FallHash = Animator.StringToHash("Fall");
 
-    private Vector3 momentum;
+//     private Vector3 momentum;
 
-    private const float CrossFadeDuration = 0.1f;
+//     private const float CrossFadeDuration = 0.1f;
 
-    public PlayerFallingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+//     public PlayerFallingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
-    {
-        stateMachine.trigger.enabled = false;
-        momentum = stateMachine.Controller.velocity;
-        momentum.y = 0f;
+//     public override void Enter()
+//     {
+//         stateMachine.trigger.enabled = false;
+//         momentum = stateMachine.Controller.velocity;
+//         momentum.y = 0f;
 
-        stateMachine.Animator.CrossFadeInFixedTime(FallHash, CrossFadeDuration);
+//         stateMachine.Animator.CrossFadeInFixedTime(FallHash, CrossFadeDuration);
 
-        stateMachine.LedgeDetector.OnLedgeDetect += HandleLedgeDetect;
-    }
+//         stateMachine.LedgeDetector.OnLedgeDetect += HandleLedgeDetect;
+//     }
 
-    public override void Tick(float deltaTime)
-    {
-        Move(momentum, deltaTime);
+//     public override void Tick(float deltaTime)
+//     {
+//         Move(momentum, deltaTime);
 
-        if (stateMachine.Controller.isGrounded)
-        {
-            ReturnToLocomotion();
-        }
+//         if (stateMachine.Controller.isGrounded)
+//         {
+//             ReturnToLocomotion();
+//         }
 
-        FaceTarget();
-    }
+//         FaceTarget();
+//     }
 
-    public override void Exit()
-    {
-        stateMachine.LedgeDetector.OnLedgeDetect -= HandleLedgeDetect;
-    }
+//     public override void Exit()
+//     {
+//         stateMachine.LedgeDetector.OnLedgeDetect -= HandleLedgeDetect;
+//     }
 
-    private void HandleLedgeDetect(Vector3 ledgeForward, Vector3 closestPoint)
-    {
-        stateMachine.SwitchState(new PlayerHangingState(stateMachine, ledgeForward, closestPoint));
-    }
-}
+//     private void HandleLedgeDetect(Vector3 ledgeForward, Vector3 closestPoint)
+//     {
+//         stateMachine.SwitchState(new PlayerHangingState(stateMachine, ledgeForward, closestPoint));
+//     }
+// }

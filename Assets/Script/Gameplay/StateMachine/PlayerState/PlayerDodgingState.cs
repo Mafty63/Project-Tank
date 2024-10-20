@@ -1,54 +1,54 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class PlayerDodgingState : PlayerBaseState
-{
-    private readonly int DodgeBlendTreeHash = Animator.StringToHash("DodgeBlendTree");
-    private readonly int DodgeForwardHash = Animator.StringToHash("DodgeForward");
-    private readonly int DodgeRightHash = Animator.StringToHash("DodgeRight");
+// public class PlayerDodgingState : PlayerBaseState
+// {
+//     private readonly int DodgeBlendTreeHash = Animator.StringToHash("DodgeBlendTree");
+//     private readonly int DodgeForwardHash = Animator.StringToHash("DodgeForward");
+//     private readonly int DodgeRightHash = Animator.StringToHash("DodgeRight");
 
-    private float remainingDodgeTime;
-    private Vector3 dodgingDirectionInput;
+//     private float remainingDodgeTime;
+//     private Vector3 dodgingDirectionInput;
 
-    private const float CrossFadeDuration = 0.1f;
+//     private const float CrossFadeDuration = 0.1f;
 
-    public PlayerDodgingState(PlayerStateMachine stateMachine, Vector3 dodgingDirectionInput) : base(stateMachine)
-    {
-        this.dodgingDirectionInput = dodgingDirectionInput;
-    }
+//     public PlayerDodgingState(PlayerStateMachine stateMachine, Vector3 dodgingDirectionInput) : base(stateMachine)
+//     {
+//         this.dodgingDirectionInput = dodgingDirectionInput;
+//     }
 
-    public override void Enter()
-    {
-        stateMachine.trigger.enabled = false;
-        remainingDodgeTime = stateMachine.DodgeDuration;
+//     public override void Enter()
+//     {
+//         stateMachine.trigger.enabled = false;
+//         remainingDodgeTime = stateMachine.DodgeDuration;
 
-        stateMachine.Animator.SetFloat(DodgeForwardHash, dodgingDirectionInput.y);
-        stateMachine.Animator.SetFloat(DodgeRightHash, dodgingDirectionInput.x);
-        stateMachine.Animator.CrossFadeInFixedTime(DodgeBlendTreeHash, CrossFadeDuration);
+//         stateMachine.Animator.SetFloat(DodgeForwardHash, dodgingDirectionInput.y);
+//         stateMachine.Animator.SetFloat(DodgeRightHash, dodgingDirectionInput.x);
+//         stateMachine.Animator.CrossFadeInFixedTime(DodgeBlendTreeHash, CrossFadeDuration);
 
-        stateMachine.Statistic.SetInvulnerable(true);
-    }
+//         stateMachine.Statistic.SetInvulnerable(true);
+//     }
 
-    public override void Tick(float deltaTime)
-    {
-        Vector3 movement = new Vector3();
+//     public override void Tick(float deltaTime)
+//     {
+//         Vector3 movement = new Vector3();
 
-        movement += stateMachine.transform.right * dodgingDirectionInput.x * stateMachine.DodgeLength / stateMachine.DodgeDuration;
-        movement += stateMachine.transform.forward * dodgingDirectionInput.y * stateMachine.DodgeLength / stateMachine.DodgeDuration;
+//         movement += stateMachine.transform.right * dodgingDirectionInput.x * stateMachine.DodgeLength / stateMachine.DodgeDuration;
+//         movement += stateMachine.transform.forward * dodgingDirectionInput.y * stateMachine.DodgeLength / stateMachine.DodgeDuration;
 
-        Move(movement, deltaTime);
+//         Move(movement, deltaTime);
 
-        FaceTarget();
+//         FaceTarget();
 
-        remainingDodgeTime -= deltaTime;
+//         remainingDodgeTime -= deltaTime;
 
-        if (remainingDodgeTime <= 0f)
-        {
-            stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
-        }
-    }
+//         if (remainingDodgeTime <= 0f)
+//         {
+//             stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
+//         }
+//     }
 
-    public override void Exit()
-    {
-        stateMachine.Statistic.SetInvulnerable(false);
-    }
-}
+//     public override void Exit()
+//     {
+//         stateMachine.Statistic.SetInvulnerable(false);
+//     }
+// }
