@@ -203,7 +203,7 @@ public class GameLobby : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
 
             GameMultiplayer.Instance.StartHost();
-            Loader.LoadNetwork(Loader.Scene.CharacterSelect);
+            Loader.LoadNetwork(Loader.Scene.CharacterSelection);
         }
         catch (LobbyServiceException e)
         {

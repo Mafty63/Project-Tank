@@ -14,7 +14,7 @@ public static class Loader
         Game,
         Loading,
         Lobby,
-        CharacterSelect,
+        CharacterSelection,
     }
 
 

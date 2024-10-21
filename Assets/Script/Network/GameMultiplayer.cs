@@ -18,12 +18,11 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
     public event EventHandler OnFailedToJoinGame;
     public event EventHandler OnPlayerDataNetworkListChanged;
 
-
-    [SerializeField] private KitchenObjectListSO kitchenObjectListSO;
-    [SerializeField] private List<Color> playerColorList;
+    [SerializeField] private List<GameObject> CharacterList;
 
 
     private NetworkList<PlayerData> playerDataNetworkList;
+    public NetworkList<PlayerData> PlayerDataNetworkList => playerDataNetworkList;
     private string playerName;
 
 
@@ -82,7 +81,7 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         playerDataNetworkList.Add(new PlayerData
         {
             clientId = clientId,
-            colorId = GetFirstUnusedColorId(),
+            CharacterId = 0,
         });
         SetPlayerNameServerRpc(GetPlayerName());
         SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
@@ -90,7 +89,7 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 
     private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest, NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
     {
-        if (SceneManager.GetActiveScene().name != Loader.Scene.CharacterSelect.ToString())
+        if (SceneManager.GetActiveScene().name != Loader.Scene.CharacterSelection.ToString())
         {
             connectionApprovalResponse.Approved = false;
             connectionApprovalResponse.Reason = "Game has already started";
@@ -151,82 +150,6 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
     }
 
-    public void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
-    {
-        SpawnKitchenObjectServerRpc(GetKitchenObjectSOIndex(kitchenObjectSO), kitchenObjectParent.GetNetworkObject());
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnKitchenObjectServerRpc(int kitchenObjectSOIndex, NetworkObjectReference kitchenObjectParentNetworkObjectReference)
-    {
-        KitchenObjectSO kitchenObjectSO = GetKitchenObjectSOFromIndex(kitchenObjectSOIndex);
-
-        kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject);
-        IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
-
-        if (kitchenObjectParent.HasKitchenObject())
-        {
-            // Parent already spawned an object
-            return;
-        }
-
-        Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-
-        NetworkObject kitchenObjectNetworkObject = kitchenObjectTransform.GetComponent<NetworkObject>();
-        kitchenObjectNetworkObject.Spawn(true);
-
-        KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
-
-
-        kitchenObject.SetKitchenObjectParent(kitchenObjectParent);
-    }
-
-    public int GetKitchenObjectSOIndex(KitchenObjectSO kitchenObjectSO)
-    {
-        return kitchenObjectListSO.kitchenObjectSOList.IndexOf(kitchenObjectSO);
-    }
-
-    public KitchenObjectSO GetKitchenObjectSOFromIndex(int kitchenObjectSOIndex)
-    {
-        return kitchenObjectListSO.kitchenObjectSOList[kitchenObjectSOIndex];
-    }
-
-
-
-    public void DestroyKitchenObject(KitchenObject kitchenObject)
-    {
-        DestroyKitchenObjectServerRpc(kitchenObject.NetworkObject);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void DestroyKitchenObjectServerRpc(NetworkObjectReference kitchenObjectNetworkObjectReference)
-    {
-        kitchenObjectNetworkObjectReference.TryGet(out NetworkObject kitchenObjectNetworkObject);
-
-        if (kitchenObjectNetworkObject == null)
-        {
-            // This object is already destroyed
-            return;
-        }
-
-        KitchenObject kitchenObject = kitchenObjectNetworkObject.GetComponent<KitchenObject>();
-
-        ClearKitchenObjectOnParentClientRpc(kitchenObjectNetworkObjectReference);
-
-        kitchenObject.DestroySelf();
-    }
-
-    [ClientRpc]
-    private void ClearKitchenObjectOnParentClientRpc(NetworkObjectReference kitchenObjectNetworkObjectReference)
-    {
-        kitchenObjectNetworkObjectReference.TryGet(out NetworkObject kitchenObjectNetworkObject);
-        KitchenObject kitchenObject = kitchenObjectNetworkObject.GetComponent<KitchenObject>();
-
-        kitchenObject.ClearKitchenObjectOnParent();
-    }
-
-
-
     public bool IsPlayerIndexConnected(int playerIndex)
     {
         return playerIndex < playerDataNetworkList.Count;
@@ -266,39 +189,39 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         return playerDataNetworkList[playerIndex];
     }
 
-    public Color GetPlayerColor(int colorId)
+    public GameObject GetPlayerCharacter(int characterId)
     {
-        return playerColorList[colorId];
+        return CharacterList[characterId];
     }
 
-    public void ChangePlayerColor(int colorId)
+    public void ChangePlayerCharacter(int characterId)
     {
-        ChangePlayerColorServerRpc(colorId);
+        ChangePlayerCharacterServerRpc(characterId);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ChangePlayerColorServerRpc(int colorId, ServerRpcParams serverRpcParams = default)
+    private void ChangePlayerCharacterServerRpc(int characterId, ServerRpcParams serverRpcParams = default)
     {
-        if (!IsColorAvailable(colorId))
-        {
-            // Color not available
-            return;
-        }
+        // if (!IsColorAvailable(characterId))
+        // {
+        //     // Color not available
+        //     return;
+        // }
 
         int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
 
         PlayerData playerData = playerDataNetworkList[playerDataIndex];
 
-        playerData.colorId = colorId;
+        playerData.CharacterId = characterId;
 
         playerDataNetworkList[playerDataIndex] = playerData;
     }
 
-    private bool IsColorAvailable(int colorId)
+    private bool IsColorAvailable(int characterId)
     {
         foreach (PlayerData playerData in playerDataNetworkList)
         {
-            if (playerData.colorId == colorId)
+            if (playerData.CharacterId == characterId)
             {
                 // Already in use
                 return false;
@@ -309,7 +232,7 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 
     private int GetFirstUnusedColorId()
     {
-        for (int i = 0; i < playerColorList.Count; i++)
+        for (int i = 0; i < CharacterList.Count; i++)
         {
             if (IsColorAvailable(i))
             {
