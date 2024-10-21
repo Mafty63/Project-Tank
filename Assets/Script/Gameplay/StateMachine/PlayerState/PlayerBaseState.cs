@@ -16,7 +16,6 @@ public abstract class PlayerBaseState : State
 
     protected void Move(Vector3 motion, float deltaTime)
     {
-        stateMachine.Controller.Move((motion + stateMachine.ForceReceiver.Movement) * deltaTime);
     }
 
     protected void FaceTarget()
@@ -33,7 +32,6 @@ public abstract class PlayerBaseState : State
     {
         if (stateMachine.Targeter.CurrentTarget != null)
         {
-            stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
         }
         else
         {

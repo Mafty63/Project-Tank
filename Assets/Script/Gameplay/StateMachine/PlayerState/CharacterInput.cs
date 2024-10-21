@@ -100,13 +100,11 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
                 {
                     //if user force using cursor in free look mode then user cannot move the character
                     changePlayerState(PlayerState.CursorMode);
-                    HUDHandler.instance.roamingUIHandler.showNonEssentialUI();
                     SetCursorState(false);
                 }
                 else
                 {
                     instance.changePlayerState(PlayerState.FreeLook);
-                    HUDHandler.instance.roamingUIHandler.hideNonEssentialUI();
                     SetCursorState(true);
                 }
             }
@@ -273,7 +271,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     {
         if (_playerState == PlayerState.FreeLook && context.performed)
         {
-            HUDHandler.instance.openInventory();
         }
     }
 
@@ -281,7 +278,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     {
         if (_playerState == PlayerState.FreeLook && context.performed)
         {
-            HUDHandler.instance.openMiniMap();
         }
     }
 
@@ -289,7 +285,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     {
         if (_playerState == PlayerState.FreeLook && context.performed)
         {
-            HUDHandler.instance.openCharacterInfo();
         }
     }
 
@@ -297,7 +292,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     {
         if (_playerState == PlayerState.FreeLook && context.performed)
         {
-            HUDHandler.instance.openQuest();
         }
     }
 
@@ -315,16 +309,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
 
     public void OnGlobalEscAction(InputAction.CallbackContext context)
     {
-        // noted : tambahkan state lagi jika ingin menggunakan esc
-        if (_playerState == PlayerState.Inventory && context.performed)
-            HUDHandler.instance.closeInventory();
-
-        if (_playerState == PlayerState.Minimap && context.performed)
-            HUDHandler.instance.closeMiniMap();
-
-        if (_playerState == PlayerState.Quest && context.performed)
-            HUDHandler.instance.closeQuest();
-
     }
 
     public void OnGlobalEnterAction(InputAction.CallbackContext context)
@@ -342,10 +326,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
 
     public void OnCloseTutorial(InputAction.CallbackContext context)
     {
-        if (_playerState == PlayerState.Tutorial && TutorialHandler.instance.getIsStartTutorial() && context.performed)
-        {
-            TutorialHandler.instance.closeCurrentTutorial();
-        }
     }
 
     public void changeMoveAndLookToZero() // harus di rubah untuk tutorial

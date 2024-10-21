@@ -61,11 +61,6 @@ public class Targeter : MonoBehaviour
         CurrentTarget = closestTarget;
         cineTargetGroup.AddMember(CurrentTarget.transform, 1f, 2f);
 
-        if (CurrentTarget is EnemyTarget)
-        {
-            HUDHandler.instance.combatUIHandler.setTargetedEnemy(CurrentTarget as EnemyTarget);
-        }
-
         return true;
     }
 
@@ -73,8 +68,6 @@ public class Targeter : MonoBehaviour
     {
         if (CurrentTarget == null) { return; }
 
-        if (CurrentTarget is EnemyTarget)
-            HUDHandler.instance.combatUIHandler.removeTargetedEnemy();
 
         cineTargetGroup.RemoveMember(CurrentTarget.transform);
         CurrentTarget = null;
@@ -87,8 +80,6 @@ public class Targeter : MonoBehaviour
     {
         if (CurrentTarget == target)
         {
-            if (CurrentTarget is EnemyTarget)
-                HUDHandler.instance.combatUIHandler.removeTargetedEnemy();
 
             cineTargetGroup.RemoveMember(CurrentTarget.transform);
             CurrentTarget = null;

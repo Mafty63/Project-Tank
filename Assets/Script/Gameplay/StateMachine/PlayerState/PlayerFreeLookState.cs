@@ -73,7 +73,6 @@ public class PlayerFreeLookState : PlayerBaseState
     {
         if (!stateMachine.Targeter.SelectTarget()) { return; }
 
-        stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
     }
 
     private void OnJump()

@@ -12,10 +12,6 @@ public class PlayerSkillState : PlayerBaseState
 
     public override void Enter()
     {
-        stateMachine.Skill.SetAttack(stateMachine.Statistic.statisticData.level, stateMachine.Skill1.DamagePercent, stateMachine.Statistic.statisticData.accuracy, stateMachine.Skill1.Knockback);
-
-        stateMachine.trigger.enabled = false;
-        StartSkill(skill.Duration);
     }
 
     public override void Tick(float deltaTime) 
@@ -28,19 +24,15 @@ public class PlayerSkillState : PlayerBaseState
         {
             if (stateMachine.Targeter.CurrentTarget != null)
             {
-                stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
             }
             else
             {
                 stateMachine.SwitchState(new PlayerFreeLookState(stateMachine));
             }
 
-            stateMachine.Khodam.SetActive(false);
-            stateMachine.Skill1.SkillParticle.SetActive(false);
         }
         else if (duration < (skill.Duration - stateMachine.Skill1.SpawnParticleTime))
         {
-            stateMachine.Skill1.SkillParticle.SetActive(true);
         }
 
         duration -= Time.deltaTime;
@@ -79,9 +71,5 @@ public class PlayerSkillState : PlayerBaseState
 
     }
 
-    private void StartSkill(float duration)
-    {
-        this.duration = duration;
-        stateMachine.Khodam.SetActive(true);
-    }
+
 }

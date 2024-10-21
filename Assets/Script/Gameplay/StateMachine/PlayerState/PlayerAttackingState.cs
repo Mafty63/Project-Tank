@@ -12,7 +12,6 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void Enter()
     {
-        stateMachine.Weapon.SetAttack(stateMachine.Statistic.statisticData.level, attack.DamagePercent, stateMachine.Statistic.statisticData.accuracy, attack.Knockback);
         stateMachine.Animator.CrossFadeInFixedTime(attack.AnimationName, attack.TransitionDuration);
         stateMachine.trigger.enabled = false;
     }
@@ -41,7 +40,6 @@ public class PlayerAttackingState : PlayerBaseState
         {
             if (stateMachine.Targeter.CurrentTarget != null)
             {
-                stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
             }
             else
             {
@@ -77,7 +75,6 @@ public class PlayerAttackingState : PlayerBaseState
     {
         if (alreadyAppliedForce) { return; }
 
-        stateMachine.ForceReceiver.AddForce(stateMachine.transform.forward * attack.Force);
 
         alreadyAppliedForce = true;
     }

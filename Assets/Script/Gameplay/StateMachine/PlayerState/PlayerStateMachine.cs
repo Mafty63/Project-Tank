@@ -30,14 +30,10 @@ public class PlayerStateMachine : StateMachine
 
     private void OnEnable()
     {
-        Statistic.OnTakeDamage += HandleTakeDamage;
-        Statistic.OnDie += HandleDie;
     }
 
     private void OnDisable()
     {
-        Statistic.OnTakeDamage -= HandleTakeDamage;
-        Statistic.OnDie -= HandleDie;
     }
 
     private void HandleTakeDamage()

@@ -11,7 +11,6 @@ public class PlayerBlockingState : PlayerBaseState
     public override void Enter()
     {
         stateMachine.trigger.enabled = false;
-        stateMachine.Statistic.SetInvulnerable(true);
         stateMachine.Animator.CrossFadeInFixedTime(BlockHash, CrossFadeDuration);
     }
 
@@ -21,8 +20,6 @@ public class PlayerBlockingState : PlayerBaseState
 
         if (!stateMachine.InputReader.IsBlocking)
         {
-            stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
-            return;
         }
         if (stateMachine.Targeter.CurrentTarget == null)
         {
@@ -33,6 +30,5 @@ public class PlayerBlockingState : PlayerBaseState
 
     public override void Exit()
     {
-        stateMachine.Statistic.SetInvulnerable(false);
     }
 }

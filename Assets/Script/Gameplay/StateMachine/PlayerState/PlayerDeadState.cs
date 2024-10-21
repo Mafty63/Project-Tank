@@ -5,12 +5,9 @@ public class PlayerDeadState : PlayerBaseState
     public override void Enter()
     {
         stateMachine.trigger.enabled = false;
-        stateMachine.Ragdoll.ToggleRagdoll(true);
-        stateMachine.Weapon.gameObject.SetActive(false);
 
         //noted : perlu di ganti lagi
 
-        LoadScene.instance.loadScene(stateMachine.playerSO.lastScene);
     }
 
     public override void Tick(float deltaTime) { }

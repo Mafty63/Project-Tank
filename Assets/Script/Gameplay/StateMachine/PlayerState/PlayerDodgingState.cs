@@ -25,7 +25,6 @@ public class PlayerDodgingState : PlayerBaseState
         stateMachine.Animator.SetFloat(DodgeRightHash, dodgingDirectionInput.x);
         stateMachine.Animator.CrossFadeInFixedTime(DodgeBlendTreeHash, CrossFadeDuration);
 
-        stateMachine.Statistic.SetInvulnerable(true);
     }
 
     public override void Tick(float deltaTime)
@@ -43,12 +42,10 @@ public class PlayerDodgingState : PlayerBaseState
 
         if (remainingDodgeTime <= 0f)
         {
-            stateMachine.SwitchState(new PlayerTargetingState(stateMachine));
         }
     }
 
     public override void Exit()
     {
-        stateMachine.Statistic.SetInvulnerable(false);
     }
 }
