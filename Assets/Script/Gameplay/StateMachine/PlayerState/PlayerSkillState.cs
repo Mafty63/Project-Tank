@@ -14,7 +14,7 @@ public class PlayerSkillState : PlayerBaseState
     {
     }
 
-    public override void Tick(float deltaTime) 
+    public override void Tick(float deltaTime)
     {
         Move(deltaTime);
 
