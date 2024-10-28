@@ -424,6 +424,11 @@ MonoBehaviour:
   - {fileID: 8914944253411703961, guid: 4143539db23a3c6459a71776867b217f, type: 3}
   - {fileID: 8017014177202420463, guid: 88773a65eae9c0b43ab793cd83cec991, type: 3}
   - {fileID: 4982739732240568878, guid: 8d619d8eaa542484c911c1255c39a7e9, type: 3}
+  characterAvatarList:
+  - {fileID: 21300000, guid: 6d2674a243a830a4a87fa7a782e64ea5, type: 3}
+  - {fileID: 21300000, guid: 2eadbcdba7fa9df498b26de613abd8f1, type: 3}
+  - {fileID: 21300000, guid: 5fecb39f40011ed46a2b232fb6d716d2, type: 3}
+  - {fileID: 21300000, guid: bf3d45bac11cade458140570afc5381d, type: 3}
 --- !u!4 &1420050328
 Transform:
   m_ObjectHideFlags: 0

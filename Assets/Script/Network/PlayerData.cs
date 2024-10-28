@@ -8,26 +8,35 @@ using UnityEngine;
 public struct PlayerData : IEquatable<PlayerData>, INetworkSerializable
 {
     public ulong clientId;
-    public int CharacterId;
+    public int characterId;
     public FixedString64Bytes playerName;
     public FixedString64Bytes playerId;
+    public TeamID teamId;
 
 
     public bool Equals(PlayerData other)
     {
         return
             clientId == other.clientId &&
-            CharacterId == other.CharacterId &&
+            characterId == other.characterId &&
             playerName == other.playerName &&
-            playerId == other.playerId;
+            playerId == other.playerId &&
+            teamId == other.teamId;
     }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref clientId);
-        serializer.SerializeValue(ref CharacterId);
+        serializer.SerializeValue(ref characterId);
         serializer.SerializeValue(ref playerName);
         serializer.SerializeValue(ref playerId);
+        serializer.SerializeValue(ref teamId);
     }
 
+}
+
+[Serializable]
+public enum TeamID
+{
+    TeamA, TeamB,
 }

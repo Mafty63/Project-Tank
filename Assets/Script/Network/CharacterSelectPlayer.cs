@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterPlayer : MonoBehaviour
+public class CharacterSelectPlayer : MonoBehaviour
 {
     private int playerIndex;
     // [SerializeField] private GameObject readyGameObject;
@@ -38,9 +38,8 @@ public class CharacterPlayer : MonoBehaviour
     }
     private void Start()
     {
-        playerIndex = GameMultiplayer.Instance.PlayerDataNetworkList.Count;
-        Debug.Log(GameMultiplayer.Instance.PlayerDataNetworkList.Count);
-        GameMultiplayer.Instance.OnPlayerDataNetworkListChanged += KitchenGameMultiplayer_OnPlayerDataNetworkListChanged;
+        playerIndex = GameMultiplayer.Instance.PlayerDataNetworkList.Count - 1;
+        GameMultiplayer.Instance.OnPlayerDataNetworkListChanged += GameMultiplayer_OnPlayerDataNetworkListChanged;
         CharacterSelectReady.Instance.OnReadyChanged += CharacterSelectReady_OnReadyChanged;
 
         // kickButton.gameObject.SetActive(NetworkManager.Singleton.IsServer);
@@ -51,7 +50,7 @@ public class CharacterPlayer : MonoBehaviour
         OnUpdateNetwork();
     }
 
-    private void KitchenGameMultiplayer_OnPlayerDataNetworkListChanged(object sender, System.EventArgs e)
+    private void GameMultiplayer_OnPlayerDataNetworkListChanged(object sender, System.EventArgs e)
     {
         OnUpdateNetwork();
     }
@@ -68,7 +67,7 @@ public class CharacterPlayer : MonoBehaviour
     {
         // if (GameMultiplayer.Instance.IsPlayerIndexConnected(playerIndex))
         // {
-        // readyGameObject.SetActive(CharacterSelectReady.Instance.IsPlayerReady(playerData.clientId));
+        // readyGameObject.SetActive(true);
 
         // playerNameText.text = playerData.playerName.ToString();
 
@@ -83,7 +82,7 @@ public class CharacterPlayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= KitchenGameMultiplayer_OnPlayerDataNetworkListChanged;
+        GameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= GameMultiplayer_OnPlayerDataNetworkListChanged;
     }
 
 

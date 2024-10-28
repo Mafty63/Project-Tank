@@ -9,9 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 {
-
-
-    public const int MAX_PLAYER_AMOUNT = 4;
+    public const int MAX_PLAYER_AMOUNT = 10;
     private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
 
     public event EventHandler OnTryingToJoinGame;
@@ -19,9 +17,10 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
     public event EventHandler OnPlayerDataNetworkListChanged;
 
     [SerializeField] private List<GameObject> CharacterList;
+    [SerializeField] private List<Sprite> characterAvatarList;
 
 
-    private NetworkList<PlayerData> playerDataNetworkList;
+    [SerializeField] private NetworkList<PlayerData> playerDataNetworkList = new();
     public NetworkList<PlayerData> PlayerDataNetworkList => playerDataNetworkList;
     private string playerName;
 
@@ -33,8 +32,6 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         DontDestroyOnLoad(gameObject);
 
         playerName = PlayerPrefs.GetString(PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER, "PlayerName" + UnityEngine.Random.Range(100, 1000));
-
-        playerDataNetworkList = new NetworkList<PlayerData>();
         playerDataNetworkList.OnListChanged += PlayerDataNetworkList_OnListChanged;
     }
 
@@ -78,11 +75,21 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
-        playerDataNetworkList.Add(new PlayerData
+        PlayerData newPlayerData = new PlayerData { playerName = this.playerName, clientId = clientId, characterId = 0 };
+        playerDataNetworkList.Add(newPlayerData);
+        Debug.Log("Client ID :" + clientId);
+
+        if (clientId % 2 == 0)
         {
-            clientId = clientId,
-            CharacterId = 0,
-        });
+            Debug.Log("player in Team A");
+            newPlayerData.teamId = TeamID.TeamA;
+        }
+        else
+        {
+            Debug.Log("player in Team B");
+            newPlayerData.teamId = TeamID.TeamB;
+        }
+
         SetPlayerNameServerRpc(GetPlayerName());
         SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
@@ -145,6 +152,32 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         playerDataNetworkList[playerDataIndex] = playerData;
     }
 
+    public void ChangePlayerCharacter(int characterId)
+    {
+        ChangePlayerCharacterServerRpc(characterId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ChangePlayerCharacterServerRpc(int characterId, ServerRpcParams serverRpcParams = default)
+    {
+        // if (!IsColorAvailable(characterId))
+        // {
+        //     // Color not available
+        //     return;
+        // }
+
+        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
+
+        PlayerData playerData = playerDataNetworkList[playerDataIndex];
+
+        playerData.characterId = characterId;
+
+        playerDataNetworkList[playerDataIndex] = playerData;
+
+        Debug.Log("Sender Index :" + playerDataIndex);
+        Debug.Log("Change Chracter to : " + playerData.characterId);
+    }
+
     private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailedToJoinGame?.Invoke(this, EventArgs.Empty);
@@ -189,39 +222,23 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
         return playerDataNetworkList[playerIndex];
     }
 
-    public GameObject GetPlayerCharacter(int characterId)
+    public GameObject GetCharacter(int characterId)
     {
         return CharacterList[characterId];
     }
 
-    public void ChangePlayerCharacter(int characterId)
+    public Sprite GetCharacterAvatar(int characterId)
     {
-        ChangePlayerCharacterServerRpc(characterId);
+        return characterAvatarList[characterId];
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ChangePlayerCharacterServerRpc(int characterId, ServerRpcParams serverRpcParams = default)
-    {
-        // if (!IsColorAvailable(characterId))
-        // {
-        //     // Color not available
-        //     return;
-        // }
 
-        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
-
-        PlayerData playerData = playerDataNetworkList[playerDataIndex];
-
-        playerData.CharacterId = characterId;
-
-        playerDataNetworkList[playerDataIndex] = playerData;
-    }
 
     private bool IsColorAvailable(int characterId)
     {
         foreach (PlayerData playerData in playerDataNetworkList)
         {
-            if (playerData.CharacterId == characterId)
+            if (playerData.characterId == characterId)
             {
                 // Already in use
                 return false;

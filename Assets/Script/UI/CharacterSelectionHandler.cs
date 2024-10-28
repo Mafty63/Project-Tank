@@ -7,7 +7,7 @@ namespace ProjectTank
 {
     public class CharacterSelectionHandler : SingletonMonoBehaviour<CharacterSelectionHandler>
     {
-        [SerializeField] private CharacterPlayer characterPlayer;
+        [SerializeField] private CharacterSelectPlayer characterPlayer;
         [SerializeField] private List<CharacterSelectButton> characterSelectButtons;
         [SerializeField] private CharacterSelectButton defaultCharacter;
         private CharacterSelectButton currentSelectedCharacter;
