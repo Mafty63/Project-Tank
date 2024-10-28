@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using Cinemachine;
 
-public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
+public class CharacterInput : MonoBehaviour
 {
     public static CharacterInput instance;
 
@@ -37,8 +37,6 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     public event Action JumpEvent;
     public event Action DodgeEvent;
     public event Action TargetEvent;
-
-    private Controls controls;
     private PlayerState _playerState = PlayerState.FreeLook;
 
     private void Awake()
@@ -51,17 +49,11 @@ public class CharacterInput : MonoBehaviour, Controls.IRoamingActions
     }
     private void Start()
     {
-        controls = new Controls();
-        controls.Roaming.SetCallbacks(this);
-
-        controls.Roaming.Enable();
-
         // SwitchCurrentActionMap("Roaming");
     }
 
     private void OnDestroy()
     {
-        controls.Roaming.Disable();
     }
 
     private void Update()
