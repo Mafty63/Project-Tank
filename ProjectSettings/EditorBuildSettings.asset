@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading.unity
     guid: 24e4d6b2709c1cc458df04fb839ce945
   - enabled: 1
+    path: Assets/Script/Bhekti/Testing.unity
+    guid: aba78130c2070bf46adf0a29ba8baef4
+  - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 7505ed7bdd15e3d4aa883f6372bc12bc
   m_configObjects:

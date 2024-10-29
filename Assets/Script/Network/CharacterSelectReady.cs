@@ -1,29 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectTank.Utilities;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterSelectReady : NetworkBehaviour
+public class CharacterSelectReady : SingletonNetworkBehaviour<CharacterSelectReady>
 {
-
-
-    public static CharacterSelectReady Instance { get; private set; }
-
 
     public event EventHandler OnReadyChanged;
 
 
-    private Dictionary<ulong, bool> playerReadyDictionary;
-
-
-    private void Awake()
-    {
-        Instance = this;
-
-        playerReadyDictionary = new Dictionary<ulong, bool>();
-    }
-
+    private Dictionary<ulong, bool> playerReadyDictionary = new Dictionary<ulong, bool>();
 
     public void SetPlayerReady()
     {
@@ -51,7 +39,7 @@ public class CharacterSelectReady : NetworkBehaviour
         if (allClientsReady)
         {
             GameLobby.Instance.DeleteLobby();
-            Loader.LoadNetwork(Loader.Scene.Game);
+            Loader.LoadNetwork(Loader.Scene.Testing);
         }
     }
 
