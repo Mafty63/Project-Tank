@@ -87,26 +87,6 @@ namespace ProjectTank
             _hasAnimator = TryGetComponent(out _animator);
 
             AssignAnimationIDs();
-
-
-            if (IsOwner)
-            {
-                _playerInput.enabled = true;
-                // LocalInstance = this;
-            }
-            else
-            {
-                _playerInput.enabled = false;
-            }
-
-            // transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId)];
-
-            // OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
-
-            if (IsServer)
-            {
-                // NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-            }
         }
 
         private void Update()
@@ -127,7 +107,24 @@ namespace ProjectTank
 
         public override void OnNetworkSpawn()
         {
+            if (IsOwner)
+            {
+                _playerInput.enabled = true;
+                // LocalInstance = this;
+            }
+            else
+            {
+                _playerInput.enabled = false;
+            }
 
+            // transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId)];
+
+            // OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+
+            if (IsServer)
+            {
+                // NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            }
         }
 
         private void AssignAnimationIDs()

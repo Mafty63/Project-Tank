@@ -70,6 +70,7 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
         {
             PlayerData playerData = GameMultiplayer.Instance.GetPlayerData();
 
+            Debug.Log("player ID" + playerData.characterId);
             Transform playerTransform = Instantiate(playerPrefab[playerData.characterId]);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
