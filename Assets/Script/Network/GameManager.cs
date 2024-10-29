@@ -68,9 +68,8 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            PlayerData playerData = GameMultiplayer.Instance.GetPlayerData();
+            PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromPlayerIndex((int)clientId);
 
-            Debug.Log("player ID" + playerData.characterId);
             Transform playerTransform = Instantiate(playerPrefab[playerData.characterId]);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
