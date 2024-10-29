@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 7986953136709280172}
   - component: {fileID: 6023088480501582513}
   m_Layer: 0
-  m_Name: Legs_Transformer_Hvy
+  m_Name: 4. Legs_Transformer_Hvy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

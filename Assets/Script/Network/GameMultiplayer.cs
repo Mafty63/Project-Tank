@@ -16,10 +16,6 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
     public event EventHandler OnFailedToJoinGame;
     public event EventHandler OnPlayerDataNetworkListChanged;
 
-    [SerializeField] private List<GameObject> CharacterList;
-    [SerializeField] private List<Sprite> characterAvatarList;
-
-
     [SerializeField] private NetworkList<PlayerData> playerDataNetworkList = new();
     public NetworkList<PlayerData> PlayerDataNetworkList => playerDataNetworkList;
     private string playerName;
@@ -220,43 +216,6 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
     public PlayerData GetPlayerDataFromPlayerIndex(int playerIndex)
     {
         return playerDataNetworkList[playerIndex];
-    }
-
-    public GameObject GetCharacter(int characterId)
-    {
-        return CharacterList[characterId];
-    }
-
-    public Sprite GetCharacterAvatar(int characterId)
-    {
-        return characterAvatarList[characterId];
-    }
-
-
-
-    private bool IsColorAvailable(int characterId)
-    {
-        foreach (PlayerData playerData in playerDataNetworkList)
-        {
-            if (playerData.characterId == characterId)
-            {
-                // Already in use
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private int GetFirstUnusedColorId()
-    {
-        for (int i = 0; i < CharacterList.Count; i++)
-        {
-            if (IsColorAvailable(i))
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 
     public void KickPlayer(ulong clientId)

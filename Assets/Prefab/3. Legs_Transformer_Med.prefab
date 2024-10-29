@@ -1352,7 +1352,7 @@ GameObject:
   - component: {fileID: 3497025184937704139}
   - component: {fileID: 5786401518578244002}
   m_Layer: 0
-  m_Name: Legs_Transformer_Med
+  m_Name: 3. Legs_Transformer_Med
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

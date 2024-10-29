@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 3635583037603918906}
   - component: {fileID: 695753839356433079}
   m_Layer: 0
-  m_Name: Spider Tank
+  m_Name: 2. Spider Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1020,7 +1020,7 @@ GameObject:
   - component: {fileID: 6953112100505255282}
   - component: {fileID: 9213386574748765152}
   m_Layer: 0
-  m_Name: Legs_Spider_Hvy
+  m_Name: 1. Legs_Spider_Hvy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

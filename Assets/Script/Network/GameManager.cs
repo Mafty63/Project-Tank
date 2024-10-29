@@ -24,7 +24,7 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
     }
 
 
-    [SerializeField] private Transform playerPrefab;
+    [SerializeField] private List<Transform> playerPrefab;
 
 
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
@@ -68,7 +68,9 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            Transform playerTransform = Instantiate(playerPrefab);
+            PlayerData playerData = GameMultiplayer.Instance.GetPlayerData();
+
+            Transform playerTransform = Instantiate(playerPrefab[playerData.characterId]);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
     }
