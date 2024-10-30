@@ -260,6 +260,22 @@ PrefabInstance:
       propertyPath: m_text
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3781629975421152031, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -344,6 +360,10 @@ PrefabInstance:
       propertyPath: characterId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c8f04d5eb8e4a184ca7db407f7c235b3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -381,6 +401,22 @@ PrefabInstance:
       propertyPath: m_text
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3781629975421152031, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -465,6 +501,10 @@ PrefabInstance:
       propertyPath: characterId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c8f04d5eb8e4a184ca7db407f7c235b3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1426,6 +1466,22 @@ PrefabInstance:
       propertyPath: m_text
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3781629975421152031, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1510,6 +1566,10 @@ PrefabInstance:
       propertyPath: characterId
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c8f04d5eb8e4a184ca7db407f7c235b3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2348,15 +2408,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 8b3adafd6030dc946b6e928798c80c4b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2466,6 +2526,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character Select Button 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606024455403769445, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3781629975421152031, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2546,6 +2622,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c8f04d5eb8e4a184ca7db407f7c235b3, type: 3}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598147477326764959, guid: 62efa351a374ecd49a0dd578f6e24978, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2606,15 +2698,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 8b3adafd6030dc946b6e928798c80c4b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
