@@ -1574,8 +1574,8 @@ GameObject:
   - component: {fileID: 2178527332643306305}
   - component: {fileID: 4333650897027216403}
   - component: {fileID: 1456992646033917134}
-  - component: {fileID: 4882313562581194172}
   - component: {fileID: 2272516552635259933}
+  - component: {fileID: 751559673842758275}
   m_Layer: 0
   m_Name: 2. Spider Tank
   m_TagString: Player
@@ -1734,20 +1734,6 @@ MonoBehaviour:
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
---- !u!114 &4882313562581194172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6322237423659446632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 7331791630792062820}
 --- !u!114 &2272516552635259933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1779,6 +1765,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &751559673842758275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322237423659446632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d73549da75f684ea03f4e7056f0698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 7331791630792062820}
 --- !u!1 &6329990515841461523
 GameObject:
   m_ObjectHideFlags: 0

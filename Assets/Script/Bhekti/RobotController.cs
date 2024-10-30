@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using Unity.Mathematics;
 using Unity.Netcode.Components;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+using System.Collections.Generic;
 
 namespace ProjectTank
 {
@@ -52,6 +53,11 @@ namespace ProjectTank
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
         private float _verticalVelocity;
+        private float _terminalVelocity = 53.0f;
+
+        // timeout deltatime
+        private float _jumpTimeoutDelta;
+        private float _fallTimeoutDelta;
 
         private int _animIDSpeed;
         private int _animIDMotionSpeed;
@@ -62,6 +68,8 @@ namespace ProjectTank
         [SerializeField] private Inputs _input;
         [SerializeField] private GameObject _mainCamera;
 
+        [Space]
+        [SerializeField] private List<BulletPool> bulletPools;
 
         private const float _threshold = 0.01f;
         private bool _hasAnimator;
@@ -87,6 +95,11 @@ namespace ProjectTank
             _hasAnimator = TryGetComponent(out _animator);
 
             AssignAnimationIDs();
+
+
+            // reset our timeouts on start
+            _jumpTimeoutDelta = JumpTimeout;
+            _fallTimeoutDelta = FallTimeout;
         }
 
         private void Update()
@@ -95,6 +108,7 @@ namespace ProjectTank
 
             _hasAnimator = TryGetComponent(out _animator);
             Move();
+            // JumpAndGravity();
             Shooting();
         }
 
@@ -205,10 +219,58 @@ namespace ProjectTank
             }
         }
 
+        private void JumpAndGravity()
+        {
+            if (Grounded)
+            {
+                _fallTimeoutDelta = FallTimeout;
+
+                if (_verticalVelocity < 0.0f)
+                {
+                    _verticalVelocity = -2f;
+                }
+
+                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                {
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                }
+
+                if (_jumpTimeoutDelta >= 0.0f)
+                {
+                    _jumpTimeoutDelta -= Time.deltaTime;
+                }
+            }
+            else
+            {
+                _jumpTimeoutDelta = JumpTimeout;
+
+                if (_fallTimeoutDelta >= 0.0f)
+                {
+                    _fallTimeoutDelta -= Time.deltaTime;
+                }
+                else
+                {
+
+                }
+
+                _input.jump = false;
+            }
+
+            if (_verticalVelocity < _terminalVelocity)
+            {
+                _verticalVelocity += Gravity * Time.deltaTime;
+            }
+        }
+
+
         private void Shooting()
         {
             if (_input.shoot)
             {
+                foreach (var bullet in bulletPools)
+                {
+                    bullet.ShootBullet();
+                }
                 _animator.Play("Shooting");
             }
 
