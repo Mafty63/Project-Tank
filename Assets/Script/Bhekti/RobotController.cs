@@ -70,6 +70,7 @@ namespace ProjectTank
 
         [Space]
         [SerializeField] private List<BulletPool> bulletPools;
+        public List<BulletPool> BulletPools => bulletPools;
 
         private const float _threshold = 0.01f;
         private bool _hasAnimator;

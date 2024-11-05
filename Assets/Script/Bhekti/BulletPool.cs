@@ -3,29 +3,24 @@ using UnityEngine;
 using Unity.Netcode;
 using Unity.Mathematics;
 
-public class BulletPool : NetworkBehaviour
+public class BulletPool : MonoBehaviour
 {
     public Bullet bulletPrefab;
-    public int poolSize = 20;
 
     [SerializeField] private List<GameObject> bulletPool = new List<GameObject>();
     private int bulletPoolIndex = 0;
+    public int CurrentAmmo { get; set; }
 
-    private void Start()
+    public void InitializePool(int maxAmmo)
     {
-        if (!IsOwner) return;
-        InitializePool();
-    }
-
-    private void InitializePool()
-    {
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < maxAmmo; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab.gameObject, transform.position, quaternion.identity, transform);
             bullet.SetActive(false);
             bullet.transform.position = transform.position;
             bulletPool.Add(bullet);
         }
+        CurrentAmmo = maxAmmo;
     }
 
     public void ShootBullet()
@@ -39,19 +34,22 @@ public class BulletPool : NetworkBehaviour
         {
             bulletPool[bulletPoolIndex].SetActive(true);
             bulletPool[bulletPoolIndex].transform.SetParent(null);
+            bulletPoolIndex += 1;
+            CurrentAmmo -= 1;
         }
 
-        bulletPoolIndex += 1;
         // ReturnAllBulletsToPlayer();
     }
 
-    private void ReturnAllBulletsToPlayer() // TODO : perlu di perbaiki agar bisa kembalikan ke parent awal
+    public void ReturnAllBulletsToPlayer(int maxAmmo) //TODO perlu tambahkan delay
     {
         foreach (GameObject bullet in bulletPool)
         {
             bullet.transform.position = transform.position;
             bullet.SetActive(false);
+            bullet.transform.SetParent(transform);
         }
+        CurrentAmmo = maxAmmo;
 
         Debug.Log("Semua peluru dikembalikan ke pemain.");
     }
