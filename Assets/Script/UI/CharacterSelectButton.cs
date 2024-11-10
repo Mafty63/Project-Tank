@@ -45,4 +45,18 @@ public class CharacterSelectButton : MonoBehaviour
     {
         GameMultiplayer.Instance.OnPlayerDataNetworkListChanged -= KitchenGameMultiplayer_OnPlayerDataNetworkListChanged;
     }
+    public void AssignTeam(int selection)
+{
+    if (selection % 2 == 1)
+    {
+        // Assign to Team 1
+        Debug.Log("Assigned to Team 1");
+    }
+    else
+    {
+        // Assign as an Enemy
+        Debug.Log("Assigned as an Enemy");
+    }
+}
+
 }

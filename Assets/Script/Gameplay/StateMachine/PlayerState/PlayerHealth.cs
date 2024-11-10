@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100;
     private float currentHealth;
     public HealthBar healthBar;
-
+    public int score = 0;
     // Event untuk memperbarui UI health bar
     public UnityEvent<float> OnHealthChanged;
     public Action OnPlayerDeath;  // Event untuk memberitahu LevelInitializer
@@ -39,12 +39,14 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            FindObjectOfType<PlayerHealth>().IncreaseScore();
         }
     }
 
     private void Die()
     {
         OnPlayerDeath?.Invoke();  // Memanggil event kematian
+        FindObjectOfType<ScoreManager>().IncreaseScore();
     }
 
     public void Respawn()
@@ -58,4 +60,12 @@ public class PlayerHealth : MonoBehaviour
     {
         spawnPoint = point; // Menyimpan titik spawn
     }
+
+    public void IncreaseScore()
+{
+    score += 1;
+    Debug.Log("Score: " + score);
+}
+
+
 }
