@@ -1588,7 +1588,7 @@ GameObject:
   - component: {fileID: 1181075089176126889}
   m_Layer: 0
   m_Name: 1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2067,7 +2067,7 @@ GameObject:
   - component: {fileID: 635228207570720608}
   m_Layer: 0
   m_Name: 1. Legs_Spider_Hvy
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

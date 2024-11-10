@@ -101,7 +101,30 @@ namespace ProjectTank
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            originalSpeed = MoveSpeed;
         }
+  private float originalSpeed;
+
+    // Metode untuk mengaktifkan efek peningkatan kecepatan
+    public void ApplySpeedBoost(float multiplier, float duration)
+    {
+        MoveSpeed *= multiplier;
+        Invoke("ResetSpeed", duration);
+    }
+
+    private void ResetSpeed()
+    {
+        MoveSpeed = originalSpeed;
+    }
+
+    // Metode untuk mengisi ulang amunisi
+    public void RefillAmmo(int amount)
+    {
+        foreach (var bulletPool in bulletPools)
+        {
+            bulletPool.CurrentAmmo = Mathf.Min(bulletPool.CurrentAmmo + amount, bulletPool.MaxAmmo);
+        }
+    }
 
         private void Update()
         {

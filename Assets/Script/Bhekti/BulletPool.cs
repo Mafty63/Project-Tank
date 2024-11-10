@@ -10,7 +10,7 @@ public class BulletPool : MonoBehaviour
     [SerializeField] private List<GameObject> bulletPool = new List<GameObject>();
     private int bulletPoolIndex = 0;
     public int CurrentAmmo { get; set; }
-
+    public int MaxAmmo => bulletPool.Count;
     public void InitializePool(int maxAmmo)
     {
         for (int i = 0; i < maxAmmo; i++)
