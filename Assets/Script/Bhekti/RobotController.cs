@@ -67,10 +67,11 @@ namespace ProjectTank
         [SerializeField] private CharacterController _controller;
         [SerializeField] private Inputs _input;
         [SerializeField] private GameObject _mainCamera;
+        [SerializeField] private RobotInterface robotInterface;
 
         [Space]
-        [SerializeField] private List<BulletPool> bulletPools;
-        public List<BulletPool> BulletPools => bulletPools;
+        [SerializeField] private List<Transform> bulletPost;
+        public List<Transform> BulletPost => bulletPost;
 
         private const float _threshold = 0.01f;
         private bool _hasAnimator;
@@ -103,28 +104,24 @@ namespace ProjectTank
             _fallTimeoutDelta = FallTimeout;
             originalSpeed = MoveSpeed;
         }
-  private float originalSpeed;
+        private float originalSpeed;
 
-    // Metode untuk mengaktifkan efek peningkatan kecepatan
-    public void ApplySpeedBoost(float multiplier, float duration)
-    {
-        MoveSpeed *= multiplier;
-        Invoke("ResetSpeed", duration);
-    }
-
-    private void ResetSpeed()
-    {
-        MoveSpeed = originalSpeed;
-    }
-
-    // Metode untuk mengisi ulang amunisi
-    public void RefillAmmo(int amount)
-    {
-        foreach (var bulletPool in bulletPools)
+        // Metode untuk mengaktifkan efek peningkatan kecepatan
+        public void ApplySpeedBoost(float multiplier, float duration)
         {
-            bulletPool.CurrentAmmo = Mathf.Min(bulletPool.CurrentAmmo + amount, bulletPool.MaxAmmo);
+            MoveSpeed *= multiplier;
+            Invoke("ResetSpeed", duration);
         }
-    }
+
+        private void ResetSpeed()
+        {
+            MoveSpeed = originalSpeed;
+        }
+
+        public void RefillAmmo(int amount)
+        {
+            robotInterface.ReloadAmmo();
+        }
 
         private void Update()
         {
@@ -176,6 +173,7 @@ namespace ProjectTank
             if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
             {
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
                 _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
                 _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
             }
@@ -183,11 +181,8 @@ namespace ProjectTank
             _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
             _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
-            // if (followObject != null)
-            // {
-            //     followObject.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
-            // }
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+                _cinemachineTargetYaw, 0.0f);
         }
 
         private void Move()
@@ -289,15 +284,16 @@ namespace ProjectTank
 
         private void Shooting()
         {
-            if (_input.shoot)
-            {
-                foreach (var bullet in bulletPools)
-                {
-                    bullet.ShootBullet();
-                }
-                _animator.Play("Shooting");
-            }
+            if (!_input.shoot) return;
+            if (robotInterface.CurrentAmmo <= 0) { Debug.Log("AMMO 0"); _input.shoot = false; return; }
 
+            foreach (var bullet in bulletPost)
+            {
+                BulletPool.Instance.RequestShootBullet(bullet.position, bullet.rotation, this);
+                Debug.Log("SHOOOOOOOOOT");
+            }
+            _animator.Play("Shooting");
+            robotInterface.UpdateBulletAmmo();
             _input.shoot = false;
         }
 
@@ -340,6 +336,11 @@ namespace ProjectTank
             {
                 // AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+
+        public void TakeDamage(int damage)
+        {
+            robotInterface.TakeDamage(damage);
         }
     }
 }

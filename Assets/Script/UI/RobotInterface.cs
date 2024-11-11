@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class RobotInterface : NetworkBehaviour
 {
     [Header("Statistic")]
-    [SerializeField] private float maxHealth;
+    [SerializeField] private float maxHealth = 500;
     private float currentHealth;
-    [SerializeField] private int maxAmmo;
+    public int MaxAmmo;
+    public int CurrentAmmo { get; private set; }
 
     [Space]
     [SerializeField] private RobotController robotController;
@@ -28,40 +29,31 @@ public class RobotInterface : NetworkBehaviour
             return;
         }
 
-        foreach (var pool in robotController.BulletPools)
-        {
-            pool.InitializePool(maxAmmo);
-        }
-
+        CurrentAmmo = MaxAmmo;
         healthBar.SetHealth(maxHealth);
-        ammo.text = maxAmmo.ToString();
-    }
-
-    private void Update()
-    {
-        ReloadAmmo();
-        UpdateBulletAmmo();
+        ammo.text = MaxAmmo.ToString();
     }
 
 
-    private void ReloadAmmo()
+    public void ReloadAmmo()
     {
         if (!inputs.reload) return;
 
-        foreach (var pool in robotController.BulletPools)
-        {
-            pool.ReturnAllBulletsToPlayer(maxAmmo);
-        }
+        CurrentAmmo = MaxAmmo;
 
         inputs.reload = false;
     }
 
     public void UpdateBulletAmmo()
     {
-        if (robotController.BulletPools[0].CurrentAmmo != maxAmmo)
-        {
-            ammo.text = robotController.BulletPools[0].CurrentAmmo.ToString();
-        }
+        CurrentAmmo--;
+        ammo.text = CurrentAmmo.ToString();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 
 }

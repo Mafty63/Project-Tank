@@ -1,3 +1,4 @@
+using ProjectTank;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,9 +8,12 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 20f;
     public float bulletLifeTime = 5f;
     public int bulletDamage = 10;
+    private RobotController shooter;
 
     private void OnEnable()
     {
+        shooter = null;
+
         if (rb != null)
         {
             rb.velocity = transform.forward * bulletSpeed;
@@ -23,21 +27,27 @@ public class Bullet : MonoBehaviour
         CancelInvoke(nameof(DeactivateBullet));
     }
 
-    void DeactivateBullet()
+    public void SetShooter(RobotController shooter)
+    {
+        this.shooter = shooter;
+    }
+
+    private void DeactivateBullet()
     {
         gameObject.SetActive(false);
     }
 
-private void OnCollisionEnter(Collision collision)
-{
-    // Check if bullet collides with an enemy
-    Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-    if (enemy != null)
+    private void OnCollisionEnter(Collision collision)
     {
-        // Reduce enemy health by bullet damage
-        enemy.TakeDamage(100); // Sets the damage to 100
-        DeactivateBullet(); // Deactivate bullet after hitting the enemy
+        if (collision.transform.CompareTag("Player"))
+        {
+            RobotController colli = collision.gameObject.GetComponent<RobotController>();
+            if (colli != shooter)
+            {
+                colli.TakeDamage(10); //TODO sementara bullet damage static
+                DeactivateBullet();
+            }
+        }
     }
-}
 
 }

@@ -14,7 +14,6 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
     public event EventHandler OnMultiplayerGameUnpaused;
     public event EventHandler OnLocalPlayerReadyChanged;
 
-
     private enum State
     {
         WaitingToStart,
@@ -23,27 +22,44 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
         GameOver,
     }
 
+    [Serializable]
+    public struct PlayerTeamData
+    {
+        public TeamId teamId;
+    }
 
-    [SerializeField] private List<Transform> playerPrefab;
+    public enum TeamId
+    {
+        TeamA,
+        TeamB
+    }
 
+    [SerializeField] private List<Transform> teamASpawnPositions;
+    [SerializeField] private List<Transform> teamBSpawnPositions;
+    [SerializeField] private List<Transform> playerPrefabs;
 
+    private List<Transform> availableTeamASpawnPositions;
+    private List<Transform> availableTeamBSpawnPositions;
     private NetworkVariable<State> state = new NetworkVariable<State>(State.WaitingToStart);
+    private Dictionary<ulong, PlayerTeamData> playerTeamDataDictionary;
+    private Dictionary<ulong, bool> playerReadyDictionary;
+    private Dictionary<ulong, bool> playerPausedDictionary;
     private bool isLocalPlayerReady;
     private NetworkVariable<float> countdownToStartTimer = new NetworkVariable<float>(3f);
     private NetworkVariable<float> gamePlayingTimer = new NetworkVariable<float>(0f);
     private float gamePlayingTimerMax = 90f;
     private bool isLocalGamePaused = false;
     private NetworkVariable<bool> isGamePaused = new NetworkVariable<bool>(false);
-    private Dictionary<ulong, bool> playerReadyDictionary;
-    private Dictionary<ulong, bool> playerPausedDictionary;
     private bool autoTestGamePausedState;
-
 
     protected override void Awake()
     {
         base.Awake();
+        playerTeamDataDictionary = new Dictionary<ulong, PlayerTeamData>();
         playerReadyDictionary = new Dictionary<ulong, bool>();
         playerPausedDictionary = new Dictionary<ulong, bool>();
+        availableTeamASpawnPositions = new List<Transform>(teamASpawnPositions);
+        availableTeamBSpawnPositions = new List<Transform>(teamBSpawnPositions);
     }
 
     private void Start()
@@ -68,12 +84,78 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
     {
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            PlayerData playerData = GameMultiplayer.Instance.GetPlayerDataFromPlayerIndex((int)clientId);
+            SpawnPlayerForClient(clientId);
+        }
+    }
 
-            Transform playerTransform = Instantiate(playerPrefab[playerData.characterId]);
+    private void SpawnPlayerForClient(ulong clientId)
+    {
+        if (!playerTeamDataDictionary.TryGetValue(clientId, out PlayerTeamData playerTeamData))
+        {
+            playerTeamData = new PlayerTeamData { teamId = (UnityEngine.Random.value > 0.5f) ? TeamId.TeamA : TeamId.TeamB };
+            playerTeamDataDictionary[clientId] = playerTeamData;
+        }
+
+        Transform spawnPosition = GetRandomSpawnPosition(playerTeamData.teamId);
+
+        if (spawnPosition != null)
+        {
+            Transform playerTransform = Instantiate(playerPrefabs[(int)playerTeamData.teamId], spawnPosition.position, spawnPosition.rotation);
             playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
         }
     }
+
+    public void RespawnPlayer(ulong clientId)
+    {
+        // Dapatkan data tim pemain untuk menentukan lokasi spawn yang sesuai
+        if (playerTeamDataDictionary.TryGetValue(clientId, out PlayerTeamData playerTeamData))
+        {
+            // Tentukan posisi spawn acak berdasarkan tim
+            Transform spawnPosition = GetRandomSpawnPosition(playerTeamData.teamId);
+
+            if (spawnPosition != null)
+            {
+                // Temukan objek NetworkObject dari clientId yang sudah ada (robot yang akan direspawn)
+                if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out NetworkClient client))
+                {
+                    NetworkObject playerNetworkObject = client.PlayerObject;
+
+                    // Atur ulang posisi dan rotasi robot di lokasi spawn yang baru
+                    playerNetworkObject.transform.position = spawnPosition.position;
+                    playerNetworkObject.transform.rotation = spawnPosition.rotation;
+
+                    // Aktifkan ulang atau reset status robot yang mati
+                    playerNetworkObject.gameObject.SetActive(true);
+
+                    // Jika ada logika tambahan untuk reset status kesehatan, tambahkan di sini
+                    // playerNetworkObject.GetComponent<RobotController>().ResetHealth();
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No available spawn position for team {playerTeamData.teamId} for client {clientId}");
+            }
+        }
+    }
+
+    private Transform GetRandomSpawnPosition(TeamId teamId)
+    {
+        List<Transform> availablePositions = (teamId == TeamId.TeamA) ? availableTeamASpawnPositions : availableTeamBSpawnPositions;
+
+        if (availablePositions.Count == 0)
+        {
+            Debug.LogWarning($"No available spawn positions for {teamId}");
+            return null;
+        }
+
+        // Pilih posisi acak dan hapus dari daftar posisi yang tersedia
+        int randomIndex = UnityEngine.Random.Range(0, availablePositions.Count);
+        Transform chosenPosition = availablePositions[randomIndex];
+        availablePositions.RemoveAt(randomIndex);
+
+        return chosenPosition;
+    }
+
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
@@ -85,13 +167,11 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
         if (isGamePaused.Value)
         {
             Time.timeScale = 0f;
-
             OnMultiplayerGamePaused?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             Time.timeScale = 1f;
-
             OnMultiplayerGameUnpaused?.Invoke(this, EventArgs.Empty);
         }
     }
