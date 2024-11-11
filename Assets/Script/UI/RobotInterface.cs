@@ -3,17 +3,21 @@ using TMPro;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
+using System.Collections;
+using System;
 
 public class RobotInterface : NetworkBehaviour
 {
     [Header("Statistic")]
-    [SerializeField] private float maxHealth = 500;
+    private float maxHealth = 500;
     private float currentHealth;
-    public int MaxAmmo;
+    private int MaxAmmo = 10;
     public int CurrentAmmo { get; private set; }
+    public bool PlayerIsDead { get; private set; }
 
     [Space]
-    [SerializeField] private RobotController robotController;
+    [SerializeField] private GameObject DeadModal;
+    [SerializeField] private TextMeshProUGUI Timer;
     [SerializeField] private Inputs inputs;
     [SerializeField] private HealthBar healthBar;
 
@@ -30,18 +34,15 @@ public class RobotInterface : NetworkBehaviour
         }
 
         CurrentAmmo = MaxAmmo;
-        healthBar.SetHealth(maxHealth);
-        ammo.text = MaxAmmo.ToString();
+        currentHealth = maxHealth;
+        healthBar.SetHealth(currentHealth);
+        ammo.text = CurrentAmmo.ToString();
     }
 
 
-    public void ReloadAmmo()
+    public void ReloadAmmo(int ammo)
     {
-        if (!inputs.reload) return;
-
-        CurrentAmmo = MaxAmmo;
-
-        inputs.reload = false;
+        CurrentAmmo = ammo;
     }
 
     public void UpdateBulletAmmo()
@@ -54,6 +55,36 @@ public class RobotInterface : NetworkBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+    }
+
+    public void PlayerDead()
+    {
+        PlayerIsDead = true;
+        DeadModal.SetActive(true);
+        StartCoroutine(RespawnPlayerAtSpawnPoint());
+    }
+
+    private IEnumerator RespawnPlayerAtSpawnPoint()
+    {
+        float delayDead = 5;
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            delayDead--;
+            Timer.text = TimeSpan.FromSeconds(delayDead).ToString("mm\\:ss");
+
+            if (delayDead < 0)
+            {
+                DeadModal.SetActive(false);
+                GameManager.Instance.RespawnPlayer(OwnerClientId);
+            }
+        }
+    }
+
+    public void ResetStatus()
+    {
+        currentHealth = maxHealth;
+        currentHealth = maxHealth;
     }
 
 }

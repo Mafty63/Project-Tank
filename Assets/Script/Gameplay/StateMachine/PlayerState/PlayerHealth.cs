@@ -46,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         OnPlayerDeath?.Invoke();  // Memanggil event kematian
-        FindObjectOfType<ScoreManager>().IncreaseScore();
+        // FindObjectOfType<ScoreManager>().IncreaseScore();
     }
 
     public void Respawn()
@@ -62,10 +62,10 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void IncreaseScore()
-{
-    score += 1;
-    Debug.Log("Score: " + score);
-}
+    {
+        score += 1;
+        Debug.Log("Score: " + score);
+    }
 
 
 }

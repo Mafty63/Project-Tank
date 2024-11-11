@@ -88,8 +88,6 @@ namespace ProjectTank
             }
         }
 
-
-
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -110,7 +108,7 @@ namespace ProjectTank
         public void ApplySpeedBoost(float multiplier, float duration)
         {
             MoveSpeed *= multiplier;
-            Invoke("ResetSpeed", duration);
+            Invoke(nameof(ResetSpeed), duration);
         }
 
         private void ResetSpeed()
@@ -120,12 +118,14 @@ namespace ProjectTank
 
         public void RefillAmmo(int amount)
         {
-            robotInterface.ReloadAmmo();
+            robotInterface.ReloadAmmo(amount);
         }
 
         private void Update()
         {
             if (!IsOwner) return;
+
+            if (robotInterface.PlayerIsDead) return;
 
             _hasAnimator = TryGetComponent(out _animator);
             Move();
@@ -136,6 +136,7 @@ namespace ProjectTank
         private void LateUpdate()
         {
             if (!IsOwner) return;
+            if (robotInterface.PlayerIsDead) return;
 
             CameraRotation();
         }
@@ -145,7 +146,8 @@ namespace ProjectTank
             if (IsOwner)
             {
                 _playerInput.enabled = true;
-                // LocalInstance = this;
+                // LocalInstance = this; 
+                // robotInterface = GetComponentInSibling<RobotInterface>();
             }
             else
             {
@@ -160,6 +162,8 @@ namespace ProjectTank
             {
                 // NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
             }
+
+
         }
 
         private void AssignAnimationIDs()
@@ -338,9 +342,15 @@ namespace ProjectTank
             }
         }
 
+        public void ResetStatus()
+        {
+            robotInterface.ResetStatus();
+        }
+
         public void TakeDamage(int damage)
         {
             robotInterface.TakeDamage(damage);
+
         }
     }
 }

@@ -1,24 +1,58 @@
+using ProjectTank.Utilities;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
 {
-    public Text scoreText; // Referensi ke UI Text untuk skor
-    private int score = 0;
+    [SerializeField] private TextMeshProUGUI teamAScore;
+    [SerializeField] private TextMeshProUGUI teamBScore;
 
-    void Start()
+    private int teamA;
+    private int teamB;
+    [Space]
+    [SerializeField] private TextMeshProUGUI teamWin;
+    [SerializeField] private GameObject UImodal;
+    [SerializeField] private Button mainMenuButton;
+
+    private void OnEnable()
     {
-        UpdateScoreUI();
+        mainMenuButton.onClick.AddListener(() => Loader.LoadNetwork(Loader.Scene.MainMenu));
     }
 
-    public void IncreaseScore()
+    private void Start()
     {
-        score += 1; // Menambah skor setiap kali musuh dikalahkan
-        UpdateScoreUI();
+        teamAScore.text = "TEAM A: " + teamA.ToString();
+        teamBScore.text = "TEAM B: " + teamB.ToString();
     }
 
-    void UpdateScoreUI()
+    public void UpdateTeamAScore()
     {
-        scoreText.text = "Score: " + score.ToString();
+        teamA += 1;
+        teamAScore.text = "TEAM A: " + teamA.ToString();
+
+
+        if (teamA >= 10)
+        {
+            teamWin.text = "TEAM A WIN";
+            UImodal.SetActive(true);
+        }
     }
+
+    public void UpdateTeamBScore()
+    {
+        teamB += 1;
+        teamBScore.text = "TEAM B: " + teamB.ToString();
+
+        if (teamB >= 10)
+        {
+            teamWin.text = "TEAM B WIN";
+            UImodal.SetActive(true);
+        }
+    }
+
+
+
+
+
 }

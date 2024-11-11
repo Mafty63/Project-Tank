@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ProjectTank;
 using ProjectTank.Utilities;
 using Unity.Netcode;
 using UnityEngine;
@@ -107,28 +108,22 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
 
     public void RespawnPlayer(ulong clientId)
     {
-        // Dapatkan data tim pemain untuk menentukan lokasi spawn yang sesuai
         if (playerTeamDataDictionary.TryGetValue(clientId, out PlayerTeamData playerTeamData))
         {
-            // Tentukan posisi spawn acak berdasarkan tim
             Transform spawnPosition = GetRandomSpawnPosition(playerTeamData.teamId);
 
             if (spawnPosition != null)
             {
-                // Temukan objek NetworkObject dari clientId yang sudah ada (robot yang akan direspawn)
                 if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out NetworkClient client))
                 {
                     NetworkObject playerNetworkObject = client.PlayerObject;
 
-                    // Atur ulang posisi dan rotasi robot di lokasi spawn yang baru
                     playerNetworkObject.transform.position = spawnPosition.position;
                     playerNetworkObject.transform.rotation = spawnPosition.rotation;
 
-                    // Aktifkan ulang atau reset status robot yang mati
                     playerNetworkObject.gameObject.SetActive(true);
 
-                    // Jika ada logika tambahan untuk reset status kesehatan, tambahkan di sini
-                    // playerNetworkObject.GetComponent<RobotController>().ResetHealth();
+                    playerNetworkObject.GetComponent<RobotController>().ResetStatus();
                 }
             }
             else
