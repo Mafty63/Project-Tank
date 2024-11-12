@@ -6,8 +6,9 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class RobotInterface : NetworkBehaviour
+public class RobotInterface : MonoBehaviour
 {
+    [SerializeField] private NetworkObject networkObject;
     [Header("Statistic")]
     private float maxHealth = 500;
     private float currentHealth;
@@ -27,7 +28,7 @@ public class RobotInterface : NetworkBehaviour
 
     private void Start()
     {
-        if (!IsOwner)
+        if (!networkObject.IsOwner)
         {
             gameObject.SetActive(false);
             return;
@@ -76,7 +77,7 @@ public class RobotInterface : NetworkBehaviour
             if (delayDead < 0)
             {
                 DeadModal.SetActive(false);
-                GameManager.Instance.RespawnPlayer(OwnerClientId);
+                GameManager.Instance.RespawnPlayer(networkObject.OwnerClientId);
             }
         }
     }
