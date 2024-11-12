@@ -66,6 +66,8 @@ public class RobotInterface : MonoBehaviour
 
     public void PlayerDead()
     {
+        if (networkObject.IsOwner) return;
+
         PlayerIsDead = true;
         DeadModal.SetActive(true);
         StartCoroutine(RespawnPlayerAtSpawnPoint());
