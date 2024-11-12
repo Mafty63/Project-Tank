@@ -122,8 +122,6 @@ public class GameManager : SingletonNetworkBehaviour<GameManager>
                     playerNetworkObject.transform.rotation = spawnPosition.rotation;
 
                     playerNetworkObject.gameObject.SetActive(true);
-
-                    playerNetworkObject.GetComponent<RobotController>().ResetStatus();
                 }
             }
             else

@@ -357,11 +357,6 @@ namespace ProjectTank
             }
         }
 
-        public void ResetStatus()
-        {
-            robotInterface.ResetStatus();
-        }
-
         public void TakeDamage(int damage)
         {
             robotInterface.TakeDamage(damage);

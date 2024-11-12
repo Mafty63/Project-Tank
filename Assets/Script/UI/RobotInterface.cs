@@ -97,6 +97,8 @@ public class RobotInterface : NetworkBehaviour
         // Reset status dan respawn setelah waktu habis
         animator.Play("Idle");
         DeadModal.SetActive(false);
+        PlayerIsDead = false;
+        ResetStatus();
         GameManager.Instance.RespawnPlayer(networkObject.OwnerClientId);
     }
 
