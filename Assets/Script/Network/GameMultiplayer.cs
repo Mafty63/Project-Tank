@@ -170,7 +170,6 @@ public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 
         playerDataNetworkList[playerDataIndex] = playerData;
 
-        Debug.Log("Sender Index :" + playerDataIndex);
         Debug.Log("Change Chracter to : " + playerData.characterId);
     }
 

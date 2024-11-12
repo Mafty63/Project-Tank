@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class RobotInterface : MonoBehaviour
+public class RobotInterface : NetworkBehaviour
 {
     [SerializeField] private NetworkObject networkObject;
     [Header("Statistic")]
@@ -22,7 +22,6 @@ public class RobotInterface : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Timer;
     [SerializeField] private Inputs inputs;
     [SerializeField] private HealthBar healthBar;
-
 
     [Header("Interface")]
     [SerializeField] private TextMeshProUGUI ammo;
@@ -40,7 +39,6 @@ public class RobotInterface : MonoBehaviour
         healthBar.SetMaxHealth(currentHealth);
         ammo.text = CurrentAmmo.ToString();
     }
-
 
     public void ReloadAmmo(int ammo)
     {
@@ -66,36 +64,43 @@ public class RobotInterface : MonoBehaviour
 
     public void PlayerDead()
     {
-        if (networkObject.IsOwner) return;
+        if (!networkObject.IsOwner) return;
 
         PlayerIsDead = true;
         DeadModal.SetActive(true);
-        StartCoroutine(RespawnPlayerAtSpawnPoint());
         animator.Play("Death");
+
+        // Panggil RPC untuk memulai respawn pada client.
+        StartRespawnCoroutineClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartRespawnCoroutineClientRpc()
+    {
+        StartCoroutine(RespawnPlayerAtSpawnPoint());
     }
 
     private IEnumerator RespawnPlayerAtSpawnPoint()
     {
         float delayDead = 5;
-        while (true)
+        while (delayDead > 0)
         {
             yield return new WaitForSecondsRealtime(1f);
             delayDead--;
             Timer.text = TimeSpan.FromSeconds(delayDead).ToString("mm\\:ss");
-
-            if (delayDead < 0)
-            {
-                animator.Play("Idle");
-                DeadModal.SetActive(false);
-                GameManager.Instance.RespawnPlayer(networkObject.OwnerClientId);
-            }
         }
+
+        // Reset status dan respawn setelah waktu habis
+        animator.Play("Idle");
+        DeadModal.SetActive(false);
+        GameManager.Instance.RespawnPlayer(networkObject.OwnerClientId);
     }
 
     public void ResetStatus()
     {
         currentHealth = maxHealth;
-        currentHealth = maxHealth;
+        CurrentAmmo = MaxAmmo;
+        healthBar.SetMaxHealth(currentHealth);
+        ammo.text = CurrentAmmo.ToString();
     }
-
 }
