@@ -2244,6 +2244,10 @@ PrefabInstance:
       propertyPath: inputs
       value: 
       objectReference: {fileID: 1266480005272454958}
+    - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: networkObject
+      value: 
+      objectReference: {fileID: 4976137951989731875}
     - target: {fileID: 7733437739155708572, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

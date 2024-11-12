@@ -2478,6 +2478,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 597212481
       objectReference: {fileID: 0}
+    - target: {fileID: 1393490613829170310, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 597212481
+      objectReference: {fileID: 0}
     - target: {fileID: 2737173250549780321, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2558,10 +2562,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4666727853524620063, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 597212481
+      objectReference: {fileID: 0}
     - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: inputs
       value: 
       objectReference: {fileID: 3603093531759515209}
+    - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: networkObject
+      value: 
+      objectReference: {fileID: 3020995944317621867}
     - target: {fileID: 7733437739155708572, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

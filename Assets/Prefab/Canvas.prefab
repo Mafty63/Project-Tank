@@ -955,7 +955,6 @@ GameObject:
   - component: {fileID: 7313027263759186569}
   - component: {fileID: 6347959668269802588}
   - component: {fileID: 138615056701083576}
-  - component: {fileID: -5509948860092134158}
   - component: {fileID: 5868150339849597730}
   m_Layer: 5
   m_Name: Canvas
@@ -1049,27 +1048,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &-5509948860092134158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8222426365389573794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 80293012
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &5868150339849597730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,6 +1060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29d6500d0632ae4495e88ed2a6a7313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkObject: {fileID: 0}
   DeadModal: {fileID: 836577003170270522}
   Timer: {fileID: 448347304321051176}
   inputs: {fileID: 0}

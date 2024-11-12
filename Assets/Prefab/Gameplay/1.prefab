@@ -3342,10 +3342,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1937775757539496997}
     m_Modifications:
-    - target: {fileID: -5509948860092134158, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 80293012
-      objectReference: {fileID: 0}
     - target: {fileID: 2737173250549780321, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3430,6 +3426,10 @@ PrefabInstance:
       propertyPath: inputs
       value: 
       objectReference: {fileID: 3201461622585431360}
+    - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: networkObject
+      value: 
+      objectReference: {fileID: 1181075089176126889}
     - target: {fileID: 7733437739155708572, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
