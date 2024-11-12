@@ -71,6 +71,8 @@ namespace ProjectTank
 
         [Space]
         [SerializeField] private List<Transform> bulletPost;
+        [Space]
+        [SerializeField] private List<GameObject> shootVfx;
         public List<Transform> BulletPost => bulletPost;
 
         private const float _threshold = 0.01f;
@@ -294,7 +296,11 @@ namespace ProjectTank
             foreach (var bullet in bulletPost)
             {
                 BulletPool.Instance.RequestShootBullet(bullet.position, bullet.rotation, this);
-                Debug.Log("SHOOOOOOOOOT");
+                foreach (var item in shootVfx)
+                {
+                    SpawnVfx(item);
+                    Invoke(nameof(hideVfx), .5f);
+                }
             }
             _animator.Play("Shooting");
             robotInterface.UpdateBulletAmmo();
@@ -308,6 +314,15 @@ namespace ProjectTank
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
 
+        private void SpawnVfx(GameObject gameObject)
+        {
+            gameObject.SetActive(true);
+        }
+
+        private void hideVfx(GameObject gameObject)
+        {
+            gameObject.SetActive(false);
+        }
 
         private void OnDrawGizmosSelected()
         {

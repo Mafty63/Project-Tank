@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject bulletEffect;
     public Rigidbody rb;
     public float bulletSpeed = 20f;
     public float bulletLifeTime = 5f;
@@ -34,6 +35,7 @@ public class Bullet : MonoBehaviour
 
     private void DeactivateBullet()
     {
+        bulletEffect.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -45,9 +47,15 @@ public class Bullet : MonoBehaviour
             if (colli != shooter)
             {
                 colli.TakeDamage(10); //TODO sementara bullet damage static
-                DeactivateBullet();
+                BulletEffect();
             }
         }
+    }
+
+    private void BulletEffect()
+    {
+        bulletEffect.SetActive(true);
+        Invoke(nameof(DeactivateBullet), .5f);
     }
 
 }

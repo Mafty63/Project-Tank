@@ -36,7 +36,7 @@ public class RobotInterface : MonoBehaviour
 
         CurrentAmmo = MaxAmmo;
         currentHealth = maxHealth;
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetMaxHealth(currentHealth);
         ammo.text = CurrentAmmo.ToString();
     }
 
@@ -56,6 +56,11 @@ public class RobotInterface : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            PlayerDead();
+        }
     }
 
     public void PlayerDead()
