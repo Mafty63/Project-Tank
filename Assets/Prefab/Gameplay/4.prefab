@@ -2341,6 +2341,18 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400038, guid: ee7fdefa015f010488ad0e4e2cc03ab4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 400038, guid: ee7fdefa015f010488ad0e4e2cc03ab4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 400038, guid: ee7fdefa015f010488ad0e4e2cc03ab4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.59
+      objectReference: {fileID: 0}
     - target: {fileID: 13700000, guid: ee7fdefa015f010488ad0e4e2cc03ab4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
