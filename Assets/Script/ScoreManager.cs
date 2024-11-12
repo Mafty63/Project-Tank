@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
+public class ScoreManager : SingletonNetworkBehaviour<ScoreManager>
 {
     [SerializeField] private TextMeshProUGUI teamAScore;
     [SerializeField] private TextMeshProUGUI teamBScore;
