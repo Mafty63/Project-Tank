@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class GameMultiplayer : SingletonNetworkBehaviour<GameMultiplayer>
 {
-    public const int MAX_PLAYER_AMOUNT = 10;
+    public const int MAX_PLAYER_AMOUNT = 6;
     private const string PLAYER_PREFS_PLAYER_NAME_MULTIPLAYER = "PlayerNameMultiplayer";
 
     public event EventHandler OnTryingToJoinGame;
