@@ -70,14 +70,18 @@ public class RobotInterface : NetworkBehaviour
         DeadModal.SetActive(true);
         animator.Play("Death");
 
-        // Panggil RPC untuk memulai respawn pada client.
-        StartRespawnCoroutineClientRpc();
+        // Kirim RPC ke client yang relevan (hanya diri sendiri) untuk memulai respawn coroutine.
+        StartRespawnCoroutineClientRpc(networkObject.OwnerClientId);
     }
 
     [ClientRpc]
-    private void StartRespawnCoroutineClientRpc()
+    private void StartRespawnCoroutineClientRpc(ulong clientId)
     {
-        StartCoroutine(RespawnPlayerAtSpawnPoint());
+        // Pastikan coroutine hanya dijalankan di client yang sesuai.
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            StartCoroutine(RespawnPlayerAtSpawnPoint());
+        }
     }
 
     private IEnumerator RespawnPlayerAtSpawnPoint()
