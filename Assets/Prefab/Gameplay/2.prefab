@@ -1750,6 +1750,7 @@ MonoBehaviour:
   bulletPost:
   - {fileID: 5771673082211613286}
   - {fileID: 2214214584147474933}
+  shootVfx: []
 --- !u!114 &1456992646033917134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3046,6 +3047,10 @@ PrefabInstance:
       propertyPath: inputs
       value: 
       objectReference: {fileID: 1456992646033917134}
+    - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7331791630792062820}
     - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: networkObject
       value: 

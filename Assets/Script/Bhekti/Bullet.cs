@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
             RobotController colli = collision.gameObject.GetComponent<RobotController>();
             if (colli != shooter)
             {
-                colli.TakeDamage(10); //TODO sementara bullet damage static
+                colli.TakeDamage(100); //TODO sementara bullet damage static
                 BulletEffect();
             }
         }

@@ -1689,6 +1689,7 @@ MonoBehaviour:
   - {fileID: 5971572233550620774}
   - {fileID: 1541641228055337569}
   - {fileID: 1541641228055337597}
+  shootVfx: []
 --- !u!114 &635228207570720608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3551,6 +3552,10 @@ PrefabInstance:
       propertyPath: inputs
       value: 
       objectReference: {fileID: 3201461622585431360}
+    - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7942954507307092410}
     - target: {fileID: 5868150339849597730, guid: 6f022ec6dd7cee740bcea710fec7417d, type: 3}
       propertyPath: networkObject
       value: 

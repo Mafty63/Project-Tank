@@ -17,6 +17,7 @@ public class RobotInterface : MonoBehaviour
     public bool PlayerIsDead { get; private set; }
 
     [Space]
+    [SerializeField] private Animator animator;
     [SerializeField] private GameObject DeadModal;
     [SerializeField] private TextMeshProUGUI Timer;
     [SerializeField] private Inputs inputs;
@@ -68,6 +69,7 @@ public class RobotInterface : MonoBehaviour
         PlayerIsDead = true;
         DeadModal.SetActive(true);
         StartCoroutine(RespawnPlayerAtSpawnPoint());
+        animator.Play("Death");
     }
 
     private IEnumerator RespawnPlayerAtSpawnPoint()
@@ -81,6 +83,7 @@ public class RobotInterface : MonoBehaviour
 
             if (delayDead < 0)
             {
+                animator.Play("Idle");
                 DeadModal.SetActive(false);
                 GameManager.Instance.RespawnPlayer(networkObject.OwnerClientId);
             }
