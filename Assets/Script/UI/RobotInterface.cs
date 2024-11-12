@@ -80,6 +80,14 @@ public class RobotInterface : NetworkBehaviour
         // Pastikan coroutine hanya dijalankan di client yang sesuai.
         if (NetworkManager.Singleton.LocalClientId == clientId)
         {
+            if (GameMultiplayer.Instance.GetPlayerDataFromClientId(clientId).teamId == TeamID.TeamA)
+            {
+                ScoreManager.Instance.UpdateTeamAScore();
+            }
+            else
+            {
+                ScoreManager.Instance.UpdateTeamBScore();
+            }
             StartCoroutine(RespawnPlayerAtSpawnPoint());
         }
     }
